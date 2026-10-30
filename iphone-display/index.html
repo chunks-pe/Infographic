@@ -85,11 +85,12 @@
       }
       h1{
         margin:14px 0 8px;
-        font-size:clamp(27px,5.4vw,40px);
-        font-weight:900;line-height:1.22;letter-spacing:-.02em;
+        font-size:clamp(27px,4.6vw,37px);
+        font-weight:900;line-height:1.22;letter-spacing:-.03em;
+        white-space:nowrap;
       }
       h1 .accent{color:var(--blue)}
-      .lead{margin:0;color:var(--ink-2);font-size:15.5px;max-width:660px}
+      .lead{margin:0;color:var(--ink-2);font-size:15.5px;max-width:none;text-align:justify;word-break:break-all}
       .lead strong{color:var(--ink)}
 
       .notice{
@@ -236,6 +237,8 @@
       .footer-text a:hover{text-decoration:underline}
 
       @media (max-width:640px){
+        h1{white-space:normal;font-size:clamp(26px,7vw,32px)}
+        h1 .accent{display:block}
         .wrap{padding:22px 14px 34px}
         .btn-grid{grid-template-columns:repeat(2,1fr)}
         .table-card{width:100%;max-width:100%;margin-left:0;margin-right:0;padding:0}
@@ -268,7 +271,7 @@
 
       <header>
         <span class="date-badge">2026년 10월 30일 기준</span>
-        <h1>아이폰 액정 수리비<br />비교 <span class="accent">한눈에 보기</span></h1>
+        <h1>아이폰 액정 수리비 비교 <span class="accent">한눈에 보기</span></h1>
         <p class="lead">
           애플 직영과 공인 서비스센터 3곳(<strong>큐에이드 · 투바 · 유베이스</strong>)의
           액정(디스플레이) 수리비를 기종별로 비교했습니다.

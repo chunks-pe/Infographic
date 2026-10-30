@@ -89,7 +89,10 @@
         font-weight:900;line-height:1.22;letter-spacing:-.02em;
       }
       h1 .accent{color:var(--blue)}
-      .lead{margin:0;color:var(--ink-2);font-size:15.5px;max-width:640px}
+      .lead{margin:0;color:var(--ink-2);font-size:15.5px;max-width:none;text-align:justify;word-break:break-all;overflow-wrap:anywhere}
+      @media (min-width:641px){
+        h1{white-space:nowrap;font-size:clamp(28px,4.5vw,37px)}
+      }
       .lead strong{color:var(--ink)}
 
       .notice{
@@ -236,6 +239,7 @@
       .footer-text a:hover{text-decoration:underline}
 
       @media (max-width:640px){
+        h1 .accent{display:block}
         .wrap{padding:22px 14px 34px}
         .btn-grid{grid-template-columns:repeat(2,1fr)}
         .table-card{width:100%;max-width:100%;margin-left:0;margin-right:0;padding:0}
@@ -268,7 +272,7 @@
 
       <header>
         <span class="date-badge">2026년 10월 29일 기준</span>
-        <h1>아이폰 배터리 교체<br />가격 비교 <span class="accent">한눈에 보기</span></h1>
+        <h1>아이폰 배터리 교체 가격 비교 <span class="accent">한눈에 보기</span></h1>
         <p class="lead">
           애플 직영과 공인 서비스센터 3곳(<strong>큐에이드 · 투바 · 유베이스</strong>)의
           배터리 교체 가격을 기종별로 비교했습니다. 모든 가격은 <strong>보증 제외(유상), 부가세 포함</strong> 기준입니다.
