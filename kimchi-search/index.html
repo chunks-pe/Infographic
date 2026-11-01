@@ -28,26 +28,19 @@
 </head>
 <body>
 <main class="wrap">
-  <h1>김치냉장고 모델번호만 입력하면<br>김치통만 보여주는 LG 검색으로 연결합니다</h1>
-  <p class="lede">로그인 없이, 냉장고 모델번호만 입력하세요. 이 페이지는 데이터베이스를 미리 모아두지 않습니다. LG 홈페이지 공식 검색에 “모델 + 김치통”을 넣어, 소모품 전체가 아니라 <strong>김치통만</strong> 나오는 LG 검색 결과로 바로 연결합니다. 그래서 LG 데이터가 바뀌어도 항상 최신 결과가 나옵니다.</p>
+  <h1>김치냉장고 모델번호 입력하면<br>김치통을 찾아줍니다.</h1>
+  <p class="lede">LG 홈페이지 공식 검색 결과로 바로 연결합니다.</p>
   <div class="search">
     <input id="q" type="text" placeholder="예: K339SN15E" autocomplete="off">
-    <button id="go">LG에서 김치통만 보기</button>
+    <button id="go">김치통 검색</button>
   </div>
-  <p class="examples">검증된 예시:
-    <button data-model="K339SN15E">K339SN15E (3개)</button>
-    <button data-model="K330MB19E">K330MB19E (4개)</button>
-    <button data-model="Z491AAA151">Z491AAA151 (5개)</button>
-    <button data-model="K225AE11">K225AE11 (2개)</button>
-    <button data-model="Z484AAA152">Z484AAA152 (4개)</button>
-  </p>
   <div id="result"></div>
   <div class="note">
-    <strong>주의:</strong> 이 연결은 LG 공식 검색의 키워드 매칭을 이용합니다. 카테고리 코드 필터가 아니라 상품명에 “김치통”이 포함되는 방식으로 걸러지기 때문에, 드물게 김치통이 아닌 항목이 섞일 수 있습니다. 그럴 때는 LG 결과에서 이름에 “김치통”이 들어간 것만 보세요. K339SN15E의 상칸 AKC67523422는 실물로는 일치하지만 LG 공식 목록에 없어, LG 기준 검색에서는 나오지 않습니다. 자세한 내용은 <a href="https://chunks-pe.github.io/Infographic/kimchi-fridge/">K339SN15E 인포그래픽 페이지</a>를 참고하세요.
+    <strong>주의:</strong> 이 연결은 LG 공식 검색의 키워드 매칭을 이용합니다. 카테고리 코드 필터가 아니라 상품명에 “김치통”이 포함되는 방식으로 걸러지기 때문에, 드물게 김치통이 아닌 항목이 섞일 수 있습니다. 그럴 때는 LG 결과에서 이름에 “김치통”이 들어간 것만 보세요.<br><br>참고: K339SN15E의 상칸 AKC67523422는 실물로는 일치하지만 LG 공식 목록에 없어, LG 기준 검색에서는 나오지 않습니다. 자세한 내용은 <a href="https://chunks-pe.github.io/Infographic/kimchi-fridge/">K339SN15E 인포그래픽 페이지</a>를 참고하세요.
   </div>
   <footer>
     데이터 출처: LG전자 공식 홈페이지 검색(lge.co.kr/search, “모델 + 김치통”, 소모품 탭) — 2026-11-01, 5개 모델 검증<br>
-    Designed by congblog.naver.com | meta <a href="https://blog.naver.com/congblog/224424044347">muse</a>
+    Designed by blog.naver.com/congblog | meta <a href="https://blog.naver.com/congblog/224424044347">muse</a>
   </footer>
 </main>
 <script>
@@ -76,11 +69,10 @@ function search(){
       return "<div class='card'><h2>" + h.name + "</h2><p>부품번호: " + h.part + "</p><p>정가 " + h.price.toLocaleString() + "원 · 회원가 " + h.memberPrice.toLocaleString() + "원</p><p><a class='buy' href='" + h.url + "' target='_blank' rel='noopener'>LG에서 구매하기</a></p></div>";
     }).join("");
   }
-  el.innerHTML = fridgeHtml + "<div class='card'><h2>" + q + "에 맞는 김치통, LG에서 바로 보기</h2><p>아래 버튼을 누르면 LG 공식 검색(“" + q + " 김치통”, 소모품 탭)이 새 창에서 열립니다. 김치통만 나오는지, 가격은 얼마인지, 구매는 LG 페이지에서 확인하세요.</p><p><a class='buy' href='" + lgUrl + "' target='_blank' rel='noopener'>LG에서 김치통만 보기</a></p><p style='color:#777;font-size:13px;'>" + lgUrl + "</p></div>" + k339Html;
+  el.innerHTML = fridgeHtml + "<div class='card'><h2>" + q + "에 맞는 김치통, LG에서 바로 보기</h2><p>아래 버튼을 누르면 LG 공식 검색(“" + q + " 김치통”, 소모품 탭)이 새 창에서 열립니다. 김치통만 나오는지, 가격은 얼마인지, 구매는 LG 페이지에서 확인하세요.</p><p><a class='buy' href='" + lgUrl + "' target='_blank' rel='noopener'>김치통 검색</a></p><p style='color:#777;font-size:13px;'>" + lgUrl + "</p></div>" + k339Html;
 }
 document.getElementById("go").addEventListener("click", search);
 document.getElementById("q").addEventListener("keydown", function(e){ if(e.key === "Enter") search(); });
-document.querySelectorAll(".examples button").forEach(function(b){ b.addEventListener("click", function(){ document.getElementById("q").value = b.getAttribute("data-model"); search(); }); });
 </script>
 </body>
 </html>
