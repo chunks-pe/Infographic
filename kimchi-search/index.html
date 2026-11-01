@@ -17,7 +17,7 @@
   .card p { margin: 4px 0; color: #444; line-height: 1.6; }
   .card a { color: #a50034; }
   .fridge-photos { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 12px 0; }
-  .fridge-photos img { width: 100%; display: block; background: #fff; border: 1px solid #ddd; border-radius: 12px; padding: 8px; box-sizing: border-box; }
+  .fridge-photos img { width: 100%; height: 360px; object-fit: contain; display: block; background: transparent; border: 0; border-radius: 0; padding: 0; box-sizing: border-box; }
   .view-label { text-align: center; margin: 6px 0 0; }
   .view-label span { display: inline-block; padding: 4px 14px; border-radius: 999px; background: #eef1f5; font-size: 13px; font-weight: 700; }
   .buy { display: inline-block; margin-top: 10px; padding: 10px 16px; background: #a50034; color: #fff !important; border-radius: 10px; text-decoration: none; font-weight: 700; }
@@ -61,7 +61,7 @@ function search(){
   if(FRIDGE_IMGS[q]){
     fridgeHtml = "<div class='card'><h2>검색한 냉장고: " + q + "</h2><div class='fridge-photos'><div><img src='" + FRIDGE_IMGS[q][0] + "' alt='냉장고 앞면'><p class='view-label'><span>앞면</span></p></div><div><img src='" + FRIDGE_IMGS[q][1] + "' alt='냉장고 측면'><p class='view-label'><span>측면</span></p></div></div><p>LG 디오스 김치톡톡 K339SN15E · 327L 스탠드형 · 666 × 1,802 × 737mm · 샤이니 사피아노 · 이미지 출처: LG전자 공식 제품 페이지</p></div>";
   } else {
-    fridgeHtml = "<div class='card'><h2>검색한 냉장고: " + q + "</h2><img src='https://static.lge.co.kr/kr/images/spec/" + q + ".akor_2p.jpg' alt='냉장고 이미지' style='width:100%;background:#fff;border:1px solid #ddd;border-radius:12px;' onerror='this.style.display=\'none\';document.getElementById(\'fridge-fallback\').style.display=\'block\';'><p id='fridge-fallback' style='display:none;'>이 모델의 냉장고 이미지는 LG 공식 제품 페이지에서 확인하세요.</p><p><a href='" + fridgeUrl + "' target='_blank' rel='noopener'>LG 공식 페이지에서 " + q + " 냉장고 확인하기</a></p><p style='color:#777;font-size:13px;'>이미지가 안 보이면 LG 스펙 이미지 형식이 다른 모델입니다. 위 링크로 확인하세요.</p></div>";
+    fridgeHtml = "<div class='card'><h2>검색한 냉장고: " + q + "</h2><img src='https://static.lge.co.kr/kr/images/spec/" + q + ".akor_2p.jpg' alt='냉장고 이미지' style='width:100%;background:transparent;border:0;border-radius:0;' onerror='this.style.display=\'none\';document.getElementById(\'fridge-fallback\').style.display=\'block\';'><p id='fridge-fallback' style='display:none;'>이 모델의 냉장고 이미지는 LG 공식 제품 페이지에서 확인하세요.</p><p><a href='" + fridgeUrl + "' target='_blank' rel='noopener'>LG 공식 페이지에서 " + q + " 냉장고 확인하기</a></p><p style='color:#777;font-size:13px;'>이미지가 안 보이면 LG 스펙 이미지 형식이 다른 모델입니다. 위 링크로 확인하세요.</p></div>";
   }
   let k339Html = "";
   if(q === "K339SN15E"){
