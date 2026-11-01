@@ -65,7 +65,7 @@ function search(){
   }
   let k339Html = "";
   if(q === "K339SN15E"){
-    k339Html = "<p>검증된 김치통 3개 (LG 검색 결과와 일치):</p>" + K339.map(function(h){
+    k339Html = "<p>" + q + "에 맞는 김치통 검색결과:</p>" + K339.map(function(h){
       return "<div class='card'><h2>" + h.name + "</h2><p>부품번호: " + h.part + "</p><p>정가 " + h.price.toLocaleString() + "원 · 회원가 " + h.memberPrice.toLocaleString() + "원</p><p><a class='buy' href='" + h.url + "' target='_blank' rel='noopener'>LG에서 구매하기</a></p></div>";
     }).join("");
   }
