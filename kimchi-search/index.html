@@ -72,7 +72,8 @@ function search(){
       return "<div class='card container-card'><img class='container-img' src='" + h.img + "' alt='" + h.name + "'><div class='container-info'><h2>" + h.name + "</h2><p>부품번호: " + h.part + "</p><p>정가 " + h.price.toLocaleString() + "원 · 회원가 " + h.memberPrice.toLocaleString() + "원</p><p><a class='buy' href='" + h.url + "' target='_blank' rel='noopener'>LG에서 구매하기</a></p></div></div>";
     }).join("");
   }
-  el.innerHTML = fridgeHtml + "<div class='card'><h2>" + q + "에 맞는 김치통, LG에서 바로 보기</h2><p>아래 버튼을 누르면 LG 공식 검색(“" + q + " 김치통”, 소모품 탭)이 새 창에서 열립니다. 김치통만 나오는지, 가격은 얼마인지, 구매는 LG 페이지에서 확인하세요.</p><p><a class='buy' href='" + lgUrl + "' target='_blank' rel='noopener'>김치통 검색</a></p><p style='color:#777;font-size:13px;'>" + lgUrl + "</p></div>" + k339Html;
+  const lgCardHtml = (q === "K339SN15E") ? "" : "<div class='card'><h2>" + q + "에 맞는 김치통, LG에서 바로 보기</h2><p>아래 버튼을 누르면 LG 공식 검색(“" + q + " 김치통”, 소모품 탭)이 새 창에서 열립니다. 김치통만 나오는지, 가격은 얼마인지, 구매는 LG 페이지에서 확인하세요.</p><p><a class='buy' href='" + lgUrl + "' target='_blank' rel='noopener'>김치통 검색</a></p><p style='color:#777;font-size:13px;'>" + lgUrl + "</p></div>";
+  el.innerHTML = fridgeHtml + lgCardHtml + k339Html;
 }
 document.getElementById("go").addEventListener("click", search);
 document.getElementById("q").addEventListener("keydown", function(e){ if(e.key === "Enter") search(); });
