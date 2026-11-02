@@ -27,6 +27,8 @@
   .info-btn { display: inline-flex; align-items: center; gap: 8px; margin-top: 10px; padding: 10px 16px; background: #f7f7f8; color: #111 !important; border: 1px solid #ddd; border-radius: 999px; text-decoration: none; font-weight: 700; }
   .info-btn svg { width: 20px; height: 20px; flex-shrink: 0; }
   .soldout { display: inline-block; margin-left: 6px; padding: 2px 8px; border-radius: 999px; background: #f3e8e8; color: #a50034; font-size: 13px; font-weight: 700; }
+  .specs { margin: 12px 0; padding-left: 18px; line-height: 1.7; }
+  .fridge-name { margin: 12px 0 4px; font-size: 18px; font-weight: 800; line-height: 1.4; }
   .examples button { margin: 4px 4px 4px 0; padding: 8px 12px; font-size: 14px; background: #eee; color: #222; border-radius: 999px; }
   .note { background: #fff8e1; border: 1px solid #e8d9a0; border-radius: 12px; padding: 14px; line-height: 1.7; }
   .note p { text-align: justify; margin: 0 0 12px; }
@@ -60,6 +62,10 @@ const K339 = [
   {"part": "AKC67523737", "name": "스탠드형 김치냉장고 김치통 (17.1L, 하칸)", "price": 28300, "memberPrice": 25400, "url": "https://www.lge.co.kr/care-accessories/kimchi-refrigerator/akc67523737", "img": "https://www.lge.co.kr/kr/images/care-accessories/kimchi-refrigerator/md09100829/gallery/large02.jpg"}
 ];
 const CURATED = {"K339SN15E": K339, "Z386MEE221": [{"part": "AKC30282101", "name": "스탠드형 김치냉장고 김치통 (8.3L, 하칸)", "price": 20500, "memberPrice": 19400, "url": "https://www.lge.co.kr/care-accessories/kimchi-refrigerator/akc30282101", "img": "https://www.lge.co.kr/kr/images/care-accessories/kimchi-refrigerator/md10944833/gallery/large01.jpg", "soldOut": true}]};
+const FRIDGE_SPECS = {
+  "K339SN15E": ["제품명: LG 디오스 김치톡톡 K339SN15E", "전체 용량: 327L", "크기: 666 × 1,802 × 737mm", "타입: 스탠드형 · 상/중/하 3칸", "색상: 샤이니 사피아노", "에너지소비효율: 1등급", "기본 김치 용기: 총 10개(상칸 6 / 중칸 2 / 하칸 2)"],
+  "Z386MEE221": ["제품명: LG 디오스 AI 오브제컬렉션 김치톡톡 Fit & Max", "전체 용량: 386L", "크기: 697 × 1,860 × 696mm (WxHxD)", "무게: 97kg", "타입: 스탠드형 · 3도어 · Fit & Max 설치", "색상: 오브제컬렉션 베이지 · 도어 메탈", "에너지소비효율: 1등급 · 월 소비전력 14.2kWh", "출시: 2026-04", "기본 김치통: 하칸 8.3L × 2개"]
+};
 function norm(s){ return (s||"").trim().toUpperCase().replace(/\.AKOR$/, ""); }
 function search(){
   const q = norm(document.getElementById("q").value);
@@ -69,10 +75,11 @@ function search(){
   const fridgeUrl = "https://www.lge.co.kr/search?keyword=" + encodeURIComponent(q);
   let fridgeHtml = "";
   if(FRIDGE_IMGS[q]){
-    fridgeHtml = "<div class='card'><h2>검색한 냉장고: " + q + "</h2><div class='fridge-photos'><div><img src='" + FRIDGE_IMGS[q][0] + "' alt='냉장고 앞면'><p class='view-label'><span>앞면</span></p></div><div><img src='" + FRIDGE_IMGS[q][1] + "' alt='냉장고 측면'><p class='view-label'><span>측면</span></p></div></div><p>LG 디오스 김치톡톡 K339SN15E · 327L 스탠드형 · 666 × 1,802 × 737mm · 샤이니 사피아노 · 이미지 출처: LG전자 공식 제품 페이지</p></div>";
+    fridgeHtml = "<div class='card'><h2>검색한 냉장고: " + q + "</h2><div class='fridge-photos'><div><img src='" + FRIDGE_IMGS[q][0] + "' alt='냉장고 앞면'><p class='view-label'><span>앞면</span></p></div><div><img src='" + FRIDGE_IMGS[q][1] + "' alt='냉장고 측면'><p class='view-label'><span>측면</span></p></div></div><h3 class='fridge-name'>LG 디오스 김치톡톡 K339SN15E</h3><ul class='specs'><li>전체 용량: 327L</li><li>크기: 666 × 1,802 × 737mm</li><li>타입: 스탠드형 · 상/중/하 3칸</li><li>색상: 샤이니 사피아노</li><li>에너지소비효율: 1등급</li><li>기본 김치 용기: 총 10개(상칸 6 / 중칸 2 / 하칸 2)</li></ul><p style='color:#777;font-size:13px;'>이미지 출처: LG전자 공식 제품 페이지</p></div>";
   } else {
     const detailUrl = "https://www.lge.co.kr/kimchi-refrigerators/" + q.toLowerCase();
-    fridgeHtml = "<div class='card'><h2>검색한 냉장고: " + q + "</h2><p>모델 상세 정보(용량·크기·색상·가격)는 LG전자 공식 모델 상세 페이지에서 확인하세요.</p><p><a class='info-btn' href='" + detailUrl + "' target='_blank' rel='noopener'><svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'><rect x='7' y='2.5' width='10' height='19' rx='5'/><line x1='12' y1='6' x2='12' y2='9.5'/></svg>LG전자 모델 상세 정보 보기</a></p><p style='color:#777;font-size:13px;'>상세 페이지가 안 열리면 <a href='" + fridgeUrl + "' target='_blank' rel='noopener'>LG 검색에서 " + q + " 찾기</a></p></div>";
+    const specHtml = FRIDGE_SPECS[q] ? "<h3 class='fridge-name'>" + FRIDGE_SPECS[q][0].replace(/^제품명: /, "") + "</h3><ul class='specs'>" + FRIDGE_SPECS[q].slice(1).map(function(s){ return "<li>" + s + "</li>"; }).join("") + "</ul><p style='color:#777;font-size:13px;'>출처: LG전자 공식 제품 페이지 (2026-11-02 확인)</p>" : "<p>이 모델의 기본정보는 아직 이 페이지에 등록되지 않았습니다. 아래 버튼으로 LG전자 공식 페이지에서 확인하세요.</p>";
+    fridgeHtml = "<div class='card'><h2>검색한 냉장고: " + q + "</h2>" + specHtml + "<p><a class='info-btn' href='" + detailUrl + "' target='_blank' rel='noopener'><svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'><rect x='7' y='2.5' width='10' height='19' rx='5'/><line x1='12' y1='6' x2='12' y2='9.5'/></svg>LG전자 모델 상세 정보 보기</a></p></div>";
   }
   let k339Html = "";
   if(CURATED[q]){
