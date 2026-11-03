@@ -69,8 +69,16 @@ const FRIDGE_SPECS = {
   "Z386MEE221": ["제품명: LG 디오스 AI 오브제컬렉션 김치톡톡 Fit & Max", "전체 용량: 386L", "크기: 697 × 1,860 × 696mm (WxHxD)", "무게: 97kg", "타입: 스탠드형 · 3도어 · Fit & Max 설치", "색상: 오브제컬렉션 베이지 · 도어 메탈", "에너지소비효율: 1등급 · 월 소비전력 14.2kWh", "출시: 2026-04", "기본 김치통: 하칸 8.3L × 2개"]
 };
 function norm(s){ return (s||"").trim().toUpperCase().replace(/\.AKOR$/, ""); }
+const LOG_URL = 'https://script.google.com/macros/s/AKfycbx4t-k8sCkkan9u8YWCIVhkDfQ2FPCJxqIUFRelJMPxJ2l0acpP4djm_NSaY0ChF260/exec';
+const LOG_TOKEN = 'cks#2610';
+function logSearch(q){
+  try{
+    fetch(LOG_URL, {method: 'POST', mode: 'no-cors', headers: {'Content-Type': 'text/plain'}, body: JSON.stringify({model: q, token: LOG_TOKEN})}).catch(function(){});
+  }catch(e){}
+}
 function search(){
   const q = norm(document.getElementById("q").value);
+  logSearch(q);
   const el = document.getElementById("result");
   if(!q){ el.innerHTML = "<p>모델번호를 입력하세요. 예: K339SN15E</p>"; return; }
   const lgUrl = "https://www.lge.co.kr/search?keyword=" + encodeURIComponent(q + " 김치통") + "&tab=disposable";
