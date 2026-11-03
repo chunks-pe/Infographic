@@ -34,6 +34,11 @@
   .note { background: #fff8e1; border: 1px solid #e8d9a0; border-radius: 12px; padding: 14px; line-height: 1.7; }
   .note p { text-align: justify; margin: 0 0 12px; }
   .note p:last-child { margin-bottom: 0; }
+  .size-search { flex-wrap: wrap; }
+  .size-search input { min-width: 120px; }
+  .diff { font-size: 14px; line-height: 1.7; }
+  .diff .bigger { color: #a50034; font-weight: 700; }
+  hr { border: 0; border-top: 1px solid #ddd; margin: 28px 0 8px; }
   footer { margin-top: 32px; color: #777; font-size: 12px; line-height: 1.8; text-align: center; }
 </style>
 </head>
@@ -46,6 +51,16 @@
     <button id="go">김치통 검색</button>
   </div>
   <div id="result"></div>
+  <hr>
+  <h2>실측 사이즈로 찾기</h2>
+  <p class="lede">기존 통의 크기를 재서 입력하면, 모델 검색에 나오지 않는 통까지 포함해 가장 가까운 통을 찾아줍니다. 가로·세로 순서는 상관없습니다.</p>
+  <div class="search size-search">
+    <input id="s1" type="number" inputmode="decimal" placeholder="가로 또는 세로 (mm)">
+    <input id="s2" type="number" inputmode="decimal" placeholder="세로 또는 가로 (mm)">
+    <input id="sh" type="number" inputmode="decimal" placeholder="높이 (mm)">
+    <button id="goSize">가까운 통 찾기</button>
+  </div>
+  <div id="sizeResult"></div>
   <div class="note">
     <p><strong>주의:</strong> 이 연결은 LG 공식 검색의 키워드 매칭을 이용합니다. 카테고리 코드 필터가 아니라 상품명에 “김치통”이 포함되는 방식으로 걸러지기 때문에, 드물게 김치통이 아닌 항목이 섞일 수 있습니다. 그럴 때는 LG 결과에서 이름에 “김치통”이 들어간 것만 보세요.</p>
     <p><strong>참고:</strong> K339SN15E의 상칸 AKC67523422는 실물로는 일치하지만 LG 공식 목록에 없어, LG 기준 검색에서는 나오지 않습니다. 자세한 내용은 <a href="https://chunks-pe.github.io/Infographic/kimchi-fridge/">K339SN15E 인포그래픽 페이지</a>를 참고하세요.</p>
@@ -109,6 +124,45 @@ function search(){
   const lgCardHtml = "<div class='card'><h2>" + q + "에 맞는 김치통, LG에서 바로 보기</h2><p>아래 버튼을 누르면 LG 공식 검색(“" + q + " 김치통”, 소모품 탭)이 새 창에서 열립니다. 김치통만 나오는지, 가격은 얼마인지, 구매는 LG 페이지에서 확인하세요.</p><p><a class='lg-link-btn' href='" + lgUrl + "' target='_blank' rel='noopener'>LG에서 바로 보기</a></p></div>";
   el.innerHTML = fridgeHtml + k339Html + lgCardHtml;
 }
+const SIZE_DIMS = {"AKC67523744":[230,275,175],"AKC73450004":[255,330,125],"AKC30625205":[225,340,110],"AKC73889602":[230,395,165],"AKC73369805":[170,325,285],"AKC73369403":[273,340,180],"AKC73889601":[226,335,166],"AKC30282001":[250,340,130],"AKC30282301":[160,213,160],"AKC67523745":[248,302,284],"AKC30282101":[190,290,195],"AKC67523738":[256,304,180],"AKC67523420":[150,340,160],"AKC67523743":[192,313,265],"AKC67523742":[245,316,266],"AKC72909302":[260,429,160],"AKC73369603":[211,332,171],"AKC67523741":[256,304,309],"AKC73889802":[290,310,240],"AKC67523733":[200,316,266],"AKC73349505":[218,326,240],"AKC67576727":[244,345,280],"AKC67576726":[244,345,280],"AKC67523735":[145,271,280],"AKC73889603":[210,343,205],"AKC67523732":[245,316,266],"AKC73889801":[171,290,270],"AKC67523739":[256,304,287],"AKC30625305":[210,275,208],"AKC73349603":[240,340,240],"AKC67523421":[255,310,182],"AKC67576725":[172,244,280],"AKC67523734":[220,270,280],"AKC67523740":[256,304,207],"AKC67523737":[256,304,309],"AKC67523736":[256,304,207],"AKC67523422":[250,370,182],"AKC67523423":[170,374,182],"AKC67603619":[150,340,160],"AKC67523419":[304,340,160],"AKC67576722":[245,345,185]};
+const SIZE_EXTRA = {"AKC67523421":{"name":"스탠드형 김치냉장고 김치통 (8.8L, 상칸)","price":22000,"memberPrice":16800,"url":"https://www.lge.co.kr/care-accessories/kimchi-refrigerator/akc67523421"},"AKC72909302":{"name":"뚜껑형 김치냉장고 김치통 (13.1L)","price":28300,"memberPrice":25400,"url":"https://www.lge.co.kr/care-accessories/kimchi-refrigerator/akc72909302"},"AKC73349603":{"name":"뚜껑형 김치냉장고 김치통 (15L)","price":28300,"memberPrice":25400,"url":"https://www.lge.co.kr/care-accessories/kimchi-refrigerator/akc73349603"}};
+
+function sizeMeta(part){
+  if(REVERSE_CONTAINERS[part]){ const c = REVERSE_CONTAINERS[part]; return {name: c.name, price: c.price, memberPrice: c.memberPrice, url: c.url, img: c.img}; }
+  const all = [];
+  Object.keys(CURATED).forEach(function(k){ CURATED[k].forEach(function(h){ all.push(h); }); });
+  for(let i = 0; i < all.length; i++){ if(all[i].part === part) return all[i]; }
+  return SIZE_EXTRA[part] || null;
+}
+function fmtDiff(d){
+  if(d === 0) return "±0mm";
+  return (d > 0 ? "+" : "−") + Math.abs(d) + "mm";
+}
+function findBySize(){
+  const el = document.getElementById("sizeResult");
+  const a = parseFloat(document.getElementById("s1").value);
+  const b = parseFloat(document.getElementById("s2").value);
+  const h = parseFloat(document.getElementById("sh").value);
+  if(!(a > 0) || !(b > 0) || !(h > 0)){ el.innerHTML = "<p>가로·세로·높이를 모두 mm 단위 숫자로 입력하세요.</p>"; return; }
+  const inLong = Math.max(a, b), inShort = Math.min(a, b);
+  const ranked = Object.keys(SIZE_DIMS).map(function(part){
+    const s = SIZE_DIMS[part];
+    const dS = s[0] - inShort, dL = s[1] - inLong, dH = s[2] - h;
+    return {part: part, size: s, dS: dS, dL: dL, dH: dH, total: Math.abs(dS) + Math.abs(dL) + Math.abs(dH)};
+  }).sort(function(x, y){ return x.total - y.total || (x.part < y.part ? -1 : 1); });
+  const top = ranked.slice(0, 10);
+  let out = "<p>입력 크기: 긴 변 " + inLong + "mm × 짧은 변 " + inShort + "mm × 높이 " + h + "mm — 가까운 순 상위 10개입니다. <span class='bigger'>+</span>로 표시된 치수는 입력보다 큰 치수입니다.</p>";
+  out += top.map(function(r, i){
+    const m = sizeMeta(r.part);
+    if(!m) return "";
+    const bigger = (r.dS > 0 || r.dL > 0 || r.dH > 0);
+    const imgHtml = m.img ? "<img class='container-img' src='" + m.img + "' alt='" + m.name + "'>" : "";
+    return "<div class='card container-card'>" + imgHtml + "<div class='container-info'><h2>" + (i + 1) + ". " + m.name + "</h2><p>부품번호: " + r.part + "</p><p>통 크기: 긴 변 " + r.size[1] + "mm × 짧은 변 " + r.size[0] + "mm × 높이 " + r.size[2] + "mm</p><p class='diff'>차이: 긴 변 <span class='" + (r.dL > 0 ? "bigger" : "") + "'>" + fmtDiff(r.dL) + "</span> · 짧은 변 <span class='" + (r.dS > 0 ? "bigger" : "") + "'>" + fmtDiff(r.dS) + "</span> · 높이 <span class='" + (r.dH > 0 ? "bigger" : "") + "'>" + fmtDiff(r.dH) + "</span>" + (bigger ? " — 입력보다 큰 치수가 있습니다" : " — 모든 치수가 입력 이내입니다") + "</p><p>정가 " + m.price.toLocaleString() + "원 · 회원가 " + m.memberPrice.toLocaleString() + "원</p><p><a class='buy' href='" + m.url + "' target='_blank' rel='noopener'>LG에서 구매하기</a></p></div></div>";
+  }).join("");
+  out += "<p style='color:#777;font-size:13px;'>사이즈가 가깝다고 해당 냉장고 모델에 호환되는 것은 아닙니다. 구매 전 LG 페이지에서 모델 호환 여부를 확인하세요.</p>";
+  el.innerHTML = out;
+}
+document.getElementById("goSize").addEventListener("click", findBySize);
 document.getElementById("go").addEventListener("click", search);
 document.getElementById("q").addEventListener("keydown", function(e){ if(e.key === "Enter") search(); });
 </script>
