@@ -105,8 +105,14 @@ const REVERSE_CONTAINERS = {"AKC30282001":{"name":"스탠드형 김치냉장고 
 const NO_LG_INFO = ["K415SN13"];
 const FRIDGE_SPECS = {
   "K339SN15E": ["제품명: LG 디오스 김치톡톡 K339SN15E", "전체 용량: 327L", "크기: 666 × 1,802 × 737mm", "타입: 스탠드형 · 상/중/하 3칸", "색상: 샤이니 사피아노", "에너지소비효율: 1등급", "기본 김치 용기: 총 10개(상칸 6 / 중칸 2 / 하칸 2)"],
-  "Z386MEE221": ["제품명: LG 디오스 AI 오브제컬렉션 김치톡톡 Fit & Max", "전체 용량: 386L", "크기: 697 × 1,860 × 696mm (WxHxD)", "무게: 97kg", "타입: 스탠드형 · 3도어 · Fit & Max 설치", "색상: 오브제컬렉션 베이지 · 도어 메탈", "에너지소비효율: 1등급 · 월 소비전력 14.2kWh", "출시: 2026-04", "기본 김치통: 하칸 8.3L × 2개"]
+  "Z386MEE221": ["제품명: LG 디오스 AI 오브제컬렉션 김치톡톡 Fit & Max", "전체 용량: 386L", "크기: 697 × 1,860 × 696mm (WxHxD)", "무게: 97kg", "타입: 스탠드형 · 3도어 · Fit & Max 설치", "색상: 오브제컬렉션 베이지 · 도어 메탈", "에너지소비효율: 1등급 · 월 소비전력 14.2kWh", "출시: 2026-04", "기본 김치통: 하칸 8.3L × 2개"],
+  "Z333AAA161": ["제품명: LG 디오스 오브제컬렉션 김치톡톡 (본체)", "전체 용량: 324L", "크기: 666 × 1,860 × 685mm (WxHxD)", "무게: 106kg", "타입: 스탠드형 · 3도어", "색상: 패널 선택 필요 (본체 모델)", "에너지소비효율: 1등급 · 월 소비전력 12.1kWh", "출시: 2023-05", "기본 김치통: 총 12개(상칸 8 / 중칸 2 / 하칸 2, 상칸 중 7L 소형 6개)", "김치 용기 구성: 상칸 11.7L×2 · 7L×6, 중칸 11.3L×2, 하칸 17.1L×2"],
+  "Z332AAA132": ["제품명: LG 디오스 오브제컬렉션 김치톡톡 (본체)", "전체 용량: 323L", "크기: 666 × 1,860 × 685mm (WxHxD)", "무게: 100kg", "타입: 스탠드형 · 상/중/하 3칸", "색상: 패널 미포함 (본체 모델)", "에너지소비효율: 2등급 · 월 소비전력 11.8kWh", "출시: 2022-09 · 단종 제품", "기본 김치통: 총 11개(상칸 7 / 중칸 2 / 하칸 2)"],
+  "K225SS131": ["제품명: LG 디오스 김치톡톡", "전체 용량: 217L", "크기: 920 × 949 × 691mm (WxHxD)", "무게: 62kg", "타입: 뚜껑식 · 2도어 · 프리스탠딩", "색상: 샤이니 퓨어 · 도어 메탈", "에너지소비효율: 1등급 · 월 소비전력 9.9kWh", "출시: 2025-09", "기본 김치통: 총 9개(좌칸 4 / 우칸 5, 우칸 중 7.6L 소형 2개)", "김치 용기 구성: 좌칸 16.9L×4, 우칸 16.9L×3 · 7.6L×2"],
+  "K336S11": ["제품명: LG 디오스 김치톡톡", "전체 용량: 327L", "크기: 666 × 1,797 × 735mm (WxHxD)", "무게: 102kg", "타입: 스탠드형 · 상/중/하 3칸", "색상: 퓨어 · 일반메탈(곡면)", "에너지소비효율: 1등급 · 월 소비전력 14.9kWh", "출시: 2017년형 · 단종 제품", "기본 김치통: 총 10개(상칸 6 / 중칸 2 / 하칸 2)"]
 };
+const FRIDGE_CHECKED = {"K339SN15E": "2026-11-02", "Z386MEE221": "2026-11-02", "Z333AAA161": "2026-11-07", "Z332AAA132": "2026-11-07", "K225SS131": "2026-11-07", "K336S11": "2026-11-07"};
+const FRIDGE_SOURCE = {"K336S11": "LG 공식 제품 페이지 없음 · 2017년 판매·리뷰 자료 기준"};
 function norm(s){ return (s||"").trim().toUpperCase().replace(/\.AKOR$/, ""); }
 const LOG_URL = 'https://script.google.com/macros/s/AKfycbx4t-k8sCkkan9u8YWCIVhkDfQ2FPCJxqIUFRelJMPxJ2l0acpP4djm_NSaY0ChF260/exec';
 const LOG_TOKEN = 'cks#2610';
@@ -126,7 +132,7 @@ function search(){
   const infoBtn = "<p><a class='info-btn' href='" + detailUrl + "' target='_blank' rel='noopener'><svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'><rect x='7' y='2.5' width='10' height='19' rx='5'/><line x1='12' y1='6' x2='12' y2='9.5'/></svg>LG전자 모델 상세 정보 보기</a></p>";
   let fridgeHtml = "";
   if(FRIDGE_SPECS[q]){
-    fridgeHtml = "<div class='card'><h2>검색한 냉장고: " + q + "</h2><h3 class='fridge-name'>" + FRIDGE_SPECS[q][0].replace(/^제품명: /, "") + "</h3><ul class='specs'>" + FRIDGE_SPECS[q].slice(1).map(function(s){ return "<li>" + s + "</li>"; }).join("") + "</ul><p style='color:#777;font-size:13px;'>출처: LG전자 공식 제품 페이지 (2026-11-02 확인)</p>" + infoBtn + "</div>";
+    fridgeHtml = "<div class='card'><h2>검색한 냉장고: " + q + "</h2><h3 class='fridge-name'>" + FRIDGE_SPECS[q][0].replace(/^제품명: /, "") + "</h3><ul class='specs'>" + FRIDGE_SPECS[q].slice(1).map(function(s){ return "<li>" + s + "</li>"; }).join("") + "</ul><p style='color:#777;font-size:13px;'>출처: " + (FRIDGE_SOURCE[q] || "LG전자 공식 제품 페이지") + " (" + (FRIDGE_CHECKED[q] || "2026-11-02") + " 확인)</p>" + infoBtn + "</div>";
   } else if(NO_LG_INFO.indexOf(q) !== -1){
     fridgeHtml = "<div class='card'><h2>검색한 냉장고: " + q + "</h2><p>이 모델의 기본정보는 아직 이 페이지에 등록되지 않았습니다.</p><p>LG전자 모델 상세 정보가 없습니다.</p></div>";
   } else {
