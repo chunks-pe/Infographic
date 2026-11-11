@@ -29,6 +29,7 @@
       --red: #ce2029;
       --wine: #9d2033;
       --exam: #7b4d16;
+      --result: #1a7f37;
       --shadow: 0 8px 28px rgba(16,18,24,.07);
     }
     @media (prefers-color-scheme: dark) {
@@ -44,6 +45,7 @@
         --red: #ef3d45;
         --wine: #ff6f82;
         --exam: #d7a45c;
+        --result: #4ac26b;
         --shadow: 0 8px 28px rgba(0,0,0,.25);
       }
     }
@@ -62,6 +64,7 @@
     .dot.first { background: var(--orange); }
     .dot.interview { background: var(--red); }
     .dot.exam { background: var(--exam); }
+    .dot.result { background: var(--result); }
     .timeline { position: relative; padding-left: 72px; }
     .timeline::before { content: ""; position: absolute; left: 27px; top: 15px; bottom: 18px; width: 3px; background: var(--line); border-radius: 3px; }
     .event { position: relative; padding: 0 0 34px; }
@@ -119,6 +122,9 @@
     .date-strong { font-weight: 800; }
     .note { position: relative; margin-top: 13px; padding-top: 13px; color: var(--muted); font-size: 13px; line-height: 1.55; }
     .note::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 1px; background: var(--soft-line); }
+    .source { margin-top: 12px; font-size: 13px; }
+    .source a { color: var(--muted); }
+    .past-toggle { display: block; margin: 6px 0 0; border: 1px solid var(--line); border-radius: 999px; padding: 8px 14px; background: transparent; color: var(--muted); font-size: 14px; font-weight: 700; cursor: pointer; }
     @media (max-width: 680px) {
       .top { padding-top: 30px; padding-bottom: 32px; }
       h1 { margin-bottom: 28px; }
@@ -143,7 +149,7 @@
   <section class="top">
     <div class="inner">
       <h1>2027학년도 수시 입시 일정</h1>
-      <div class="legend" aria-label="일정 범례"><span><i class="dot first"></i>1차 발표</span><span><i class="dot interview"></i>면접</span></div>
+      <div class="legend" aria-label="일정 범례"><span><i class="dot first"></i>1차 발표</span><span><i class="dot interview"></i>면접</span><span><i class="dot result"></i>합격자 발표</span></div>
       <div id="timeline" class="timeline" aria-label="입시 일정 타임라인"></div>
 
       <section class="calendar-wrap" aria-labelledby="calendar-title">
@@ -172,13 +178,13 @@
   <script>
     (function () {
       var programs = {
-        korea: { school:'고려대', track:'계열적합형', major:'반도체 관련 모집단위', people:'14명 / 28명', method:'서류 60% · 면접 40%', minimum:'수능 최저 없음', competition:'14.56:1 / 13.05:1', cut:'3.68 / 3.88', first:'10.30(금) 17:00', interview:'11.8(일) 13:20' },
-        kaist: { school:'카이스트', track:'일반전형', major:'', people:'380명', method:'면접 60%', minimum:'수능 최저 없음', competition:'—', cut:'—', first:'11.11(수) 10:00', interview:'11.26(목)', note:'서울대 면접 전날' },
-        yonsei: { school:'연세대', track:'활동우수형', major:'약학과', people:'7명 / 30명', method:'제시문 기반 녹화면접', minimum:'국어·수학 중 1과목 포함 1등급 2개', competition:'—', cut:'—', first:'11.16(월) 17:00', interview:'11.22(일) 오전' },
-        snu: { school:'서울대', track:'', major:'기계공학부', people:'54명 / 98명', method:'제시문 기반 면접(수학)', minimum:'수능 최저 없음', competition:'5.43:1 / 7.58:1', cut:'2.26 / 1.91', first:'11.20(금) 09:00', interview:'11.27(금)', result:'12.18(금) 18:00' },
-        konkuk: { school:'건국대', track:'논술', major:'수의학과', people:'—', method:'논술', minimum:'국어·수학·영어·탐구 3합 4 이내', competition:'—', cut:'—', first:'해당 없음', interview:'해당 없음', exam:'11.21(토) 14:00~15:40' },
-        gachon: { school:'가천대', track:'의대', major:'의예과', people:'16명', method:'생기부 면접', minimum:'국어·수학·영어·탐구 중 3개 영역 각 1등급', competition:'39.3:1', cut:'1.71 / 1.81', first:'12.9(수)', interview:'12.14(월)' },
-        ajou: { school:'아주대', track:'ACE전형', major:'의학과', people:'17명', method:'면접', minimum:'국어·수학·영어·탐구 등급합 6 이내', competition:'34.2:1', cut:'1.21 / 1.46', first:'12.12(토)', interview:'12.14(월)' }
+        korea: { school:'고려대', track:'계열적합형', major:'반도체 관련 모집단위', people:'14명 / 28명', method:'서류 60% · 면접 40%', minimum:'수능 최저 없음', competition:'14.56:1 / 13.05:1', cut:'3.68 / 3.88', first:'10.30(금) 17:00', interview:'11.8(일) 13:20', result:'12.18(금) 17:00', source:'https://oku.korea.ac.kr/attach/202610/1792973469910_0.pdf' },
+        kaist: { school:'카이스트', track:'일반전형', major:'', people:'380명', method:'면접 60%', minimum:'수능 최저 없음', competition:'—', cut:'—', first:'11.11(수) 10:00', interview:'11.26(목)', result:'12.18(금) 10:00', source:'https://admission.kaist.ac.kr/wz/api/common/files/download/undergraduate/pdf/2027%ED%95%99%EB%85%84%EB%8F%84%20%ED%95%99%EC%82%AC%EA%B3%BC%EC%A0%95%20%EB%AA%A8%EC%A7%91%EC%9A%94%EA%B0%95_%EC%A0%84%ED%98%95%EA%B0%9C%EC%9A%94.pdf', note:'서울대 면접 전날' },
+        yonsei: { school:'연세대', track:'활동우수형', major:'약학과', people:'7명 / 30명', method:'제시문 기반 녹화면접', minimum:'국어·수학 중 1과목 포함 1등급 2개', competition:'—', cut:'—', first:'11.16(월) 17:00', interview:'11.22(일) 오전', result:'12.18(금) 18:00', source:'https://admission.yonsei.ac.kr/seoul/upload/guide/20260529204109T8NZNJ.PDF' },
+        snu: { school:'서울대', track:'', major:'기계공학부', people:'54명 / 98명', method:'제시문 기반 면접(수학)', minimum:'수능 최저 없음', competition:'5.43:1 / 7.58:1', cut:'2.26 / 1.91', first:'11.20(금) 09:00', interview:'11.27(금)', result:'12.18(금) 18:00 이후', source:'https://admission.snu.ac.kr/webdata/admission/files/2027susi.pdf' },
+        konkuk: { school:'건국대', track:'논술', major:'수의학과', people:'—', method:'논술', minimum:'국어·수학·영어·탐구 3합 4 이내', competition:'—', cut:'—', first:'해당 없음', interview:'해당 없음', exam:'11.21(토) 14:00~15:40', result:'12.18(금) 14:00 예정', source:'https://admission.konkuk.ac.kr/enterGthr/admission/1/69/pdf/fileDown.do' },
+        gachon: { school:'가천대', track:'의대', major:'의예과', people:'16명', method:'생기부 면접', minimum:'국어·수학·영어·탐구 중 3개 영역 각 1등급', competition:'39.3:1', cut:'1.71 / 1.81', first:'12.9(수)', interview:'12.14(월)', result:'12.18(금) 시간 미정', source:'https://admission.gachon.ac.kr/upload/BBS0021/20260522154511HBZYTW.PDF' },
+        ajou: { school:'아주대', track:'ACE전형', major:'의학과', people:'17명', method:'면접', minimum:'국어·수학·영어·탐구 등급합 6 이내', competition:'34.2:1', cut:'1.21 / 1.46', first:'12.12(토)', interview:'12.14(월)', result:'12.18(금) 시간 미정', source:'https://www.iajou.ac.kr/_common/new_download_file.php?menu=boardfile&file_no=4601' }
       };
       var events = [
         {date:'2026-10-30', label:'1차 발표', type:'first', time:'17:00', ids:['korea']},
@@ -192,15 +198,16 @@
         {date:'2026-11-27', label:'면접', type:'interview', time:'', ids:['snu']},
         {date:'2026-12-09', label:'1차 발표', type:'first', time:'', ids:['gachon']},
         {date:'2026-12-12', label:'1차 발표', type:'first', time:'', ids:['ajou']},
-        {date:'2026-12-14', label:'면접', type:'interview', time:'', ids:['gachon','ajou']}
+        {date:'2026-12-14', label:'면접', type:'interview', time:'', ids:['gachon','ajou']},
+        {date:'2026-12-18', label:'합격자 발표', type:'result', time:'', note:'대학별 시간 상이', ids:[]}
       ];
       var weekdays = ['일','월','화','수','목','금','토'];
       var now = new Date();
       var todayIso = now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0')+'-'+String(now.getDate()).padStart(2,'0');
       var currentMonth = now.getFullYear()===2026 && now.getMonth()>=9 && now.getMonth()<=11 ? now.getMonth() : 10;
-      var selectedDate = '2026-10-30';
+      var selectedDate = todayIso;
       function schoolName(id) { var p=programs[id]; return p.school+(p.track?'('+p.track+')':''); }
-      function eventColor(type) { return type==='first'?'var(--orange)':type==='exam'?'var(--exam)':'var(--red)'; }
+      function eventColor(type) { return type==='first'?'var(--orange)':type==='exam'?'var(--exam)':type==='result'?'var(--result)':'var(--red)'; }
       function displayDate(iso) { var d=new Date(iso+'T12:00:00'); return (d.getMonth()+1)+'.'+d.getDate()+'('+weekdays[d.getDay()]+')'; }
       function scrollToCard(id) {
         var el=document.getElementById('card-'+id); if(!el) return;
@@ -215,9 +222,11 @@
           if(detailId) window.setTimeout(function(){ scrollToCard(detailId); },650);
         },40);
       }
+      var showPastEvents=false;
       function renderTimeline() {
         var root=document.getElementById('timeline'); root.innerHTML='';
-        events.forEach(function(e){
+        var pastCount=events.filter(function(e){return e.date<todayIso;}).length;
+        events.filter(function(e){return showPastEvents||e.date>=todayIso;}).forEach(function(e){
           var node=document.createElement('article'); node.className='event'; node.style.setProperty('--event-color',eventColor(e.type));
           var chips=e.ids.map(function(id){return '<button class="school-chip" type="button" data-program="'+id+'">'+schoolName(id)+'</button>';}).join('');
           node.innerHTML='<button class="event-head" type="button" aria-label="'+displayDate(e.date)+' '+e.label+' 달력에서 보기"><span class="kind">'+e.label+'</span><span class="date">'+displayDate(e.date)+(e.time?' '+e.time:'')+(e.note?' · '+e.note:'')+'</span></button><div class="school-chips">'+chips+'</div>';
@@ -225,13 +234,19 @@
           node.querySelectorAll('.school-chip').forEach(function(button){button.addEventListener('click',function(){pickEvent(e,button.getAttribute('data-program'));});});
           root.appendChild(node);
         });
+        if(pastCount){
+          var toggle=document.createElement('button'); toggle.type='button'; toggle.className='past-toggle';
+          toggle.textContent=showPastEvents?'지나간 일정 숨기기':'지나간 일정 '+pastCount+'개 보기';
+          toggle.addEventListener('click',function(){showPastEvents=!showPastEvents;renderTimeline();});
+          root.appendChild(toggle);
+        }
       }
       function renderCards() {
         var root=document.getElementById('cards');
         ['korea','kaist','yonsei','snu','konkuk','gachon','ajou'].forEach(function(id){
           var p=programs[id], c=document.createElement('article'); c.className='card'; c.id='card-'+id;
           c.innerHTML='<div class="card-head"><h3>'+p.school+(p.track?' ('+p.track+')':'')+'</h3><span class="major">'+p.major+'</span></div><dl>'+
-            '<dt>모집인원</dt><dd>'+p.people+'</dd><dt>전형요소</dt><dd>'+p.method+'</dd><dt>수능 최저</dt><dd>'+p.minimum+'</dd><dt>경쟁률</dt><dd>'+p.competition+'</dd><dt>70% Cut</dt><dd>'+p.cut+'</dd><dt>1차 발표</dt><dd class="date-strong">'+p.first+'</dd><dt>면접</dt><dd class="date-strong">'+p.interview+'</dd>'+(p.result?'<dt>합격자 발표</dt><dd class="date-strong">'+p.result+'</dd>':'')+(p.exam?'<dt>논술</dt><dd class="date-strong">'+p.exam+'</dd>':'')+'</dl>'+(p.note?'<div class="note">'+p.note+'</div>':'');
+            '<dt>모집인원</dt><dd>'+p.people+'</dd><dt>전형요소</dt><dd>'+p.method+'</dd><dt>수능 최저</dt><dd>'+p.minimum+'</dd><dt>경쟁률</dt><dd>'+p.competition+'</dd><dt>70% Cut</dt><dd>'+p.cut+'</dd><dt>1차 발표</dt><dd class="date-strong">'+p.first+'</dd><dt>면접</dt><dd class="date-strong">'+p.interview+'</dd>'+(p.result?'<dt>합격자 발표</dt><dd class="date-strong">'+p.result+'</dd>':'')+(p.exam?'<dt>논술</dt><dd class="date-strong">'+p.exam+'</dd>':'')+'</dl>'+(p.source?'<div class="source"><a href="'+p.source+'" target="_blank" rel="noopener">출처: 입학처 모집요강</a></div>':'')+(p.note?'<div class="note">'+p.note+'</div>':'');
           root.appendChild(c);
         });
       }
@@ -271,9 +286,18 @@
       }
       function renderAgenda() {
         var root=document.getElementById('agenda'), matches=events.filter(function(e){return e.date===selectedDate}), ids=[];
-        root.innerHTML='<div class="agenda-title">'+displayDate(selectedDate)+'</div>';
+        var effectiveDate=selectedDate;
+        if(!matches.length){
+          var future=events.filter(function(e){return e.date>selectedDate;});
+          if(future.length){matches=[future[0]];effectiveDate=future[0].date;}
+        }
+        root.innerHTML='<div class="agenda-title">'+displayDate(effectiveDate)+'</div>';
         if(!matches.length){root.innerHTML+='<div class="agenda-row">등록된 일정이 없습니다.</div>';return;}
-        matches.forEach(function(e){e.ids.forEach(function(id){
+        matches.forEach(function(e){
+          if(!e.ids.length){
+            var erow=document.createElement('div');erow.className='agenda-row';erow.innerHTML='<i class="dot '+e.type+'"></i><span>'+e.label+(e.time?' '+e.time:'')+(e.note?' · '+e.note:'')+'</span>';root.appendChild(erow);return;
+          }
+          e.ids.forEach(function(id){
           if(ids.indexOf(id)<0) ids.push(id);
           var row=document.createElement('div');row.className='agenda-row';row.innerHTML='<i class="dot '+e.type+'"></i><span>'+e.label+(e.time?' '+e.time:'')+' · </span><button type="button">'+schoolName(id)+'</button>';
           row.querySelector('button').addEventListener('click',function(){scrollToCard(id)});root.appendChild(row);
@@ -282,8 +306,8 @@
         ids.forEach(function(id){
           var p=programs[id], card=document.createElement('article'); card.className='agenda-card';
           card.innerHTML=p.exam
-            ? '<h3>'+p.school+(p.track?' ('+p.track+')':'')+'</h3><dl><dt>논술</dt><dd>'+p.exam+'</dd></dl><button type="button" class="agenda-more">전체 상세 보기</button>'
-            : '<h3>'+p.school+(p.track?' ('+p.track+')':'')+'</h3><dl><dt>전형요소</dt><dd>'+p.method+'</dd><dt>수능 최저</dt><dd>'+p.minimum+'</dd><dt>1차 발표</dt><dd>'+p.first+'</dd><dt>면접</dt><dd>'+p.interview+'</dd></dl><button type="button" class="agenda-more">전체 상세 보기</button>';
+            ? '<h3>'+p.school+(p.track?' ('+p.track+')':'')+'</h3><dl><dt>논술</dt><dd>'+p.exam+'</dd>'+(p.result?'<dt>합격자 발표</dt><dd>'+p.result+'</dd>':'')+'</dl><button type="button" class="agenda-more">전체 상세 보기</button>'
+            : '<h3>'+p.school+(p.track?' ('+p.track+')':'')+'</h3><dl><dt>전형요소</dt><dd>'+p.method+'</dd><dt>수능 최저</dt><dd>'+p.minimum+'</dd><dt>1차 발표</dt><dd>'+p.first+'</dd><dt>면접</dt><dd>'+p.interview+'</dd>'+(p.result?'<dt>합격자 발표</dt><dd>'+p.result+'</dd>':'')+'</dl><button type="button" class="agenda-more">전체 상세 보기</button>';
           card.querySelector('button').addEventListener('click',function(){scrollToCard(id)}); details.appendChild(card);
         });
         root.appendChild(details);
