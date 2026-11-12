@@ -155,7 +155,8 @@ function search(){
   const infoBtn = "<p><a class='info-btn' href='" + detailUrl + "' target='_blank' rel='noopener'><svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'><rect x='7' y='2.5' width='10' height='19' rx='5'/><line x1='12' y1='6' x2='12' y2='9.5'/></svg>LG전자 모델 상세 정보 보기</a></p>";
   let fridgeHtml = "";
   if(FRIDGE_SPECS[q]){
-    fridgeHtml = "<div class='card'><h2>검색한 냉장고: " + q + "</h2><h3 class='fridge-name'>" + FRIDGE_SPECS[q][0].replace(/^제품명: /, "") + "</h3><ul class='specs'>" + FRIDGE_SPECS[q].slice(1).map(function(s){ return "<li>" + s + "</li>"; }).join("") + "</ul><p style='color:#777;font-size:13px;'>출처: " + (FRIDGE_SOURCE[q] || "LG전자 공식 제품 페이지") + " (" + (FRIDGE_CHECKED[q] || "2026-11-02") + " 확인)</p>" + infoBtn + "</div>";
+    const noLgDetail = FRIDGE_SOURCE[q] && FRIDGE_SOURCE[q].indexOf("LG 공식 제품 페이지 없음") === 0;
+    fridgeHtml = "<div class='card'><h2>검색한 냉장고: " + q + "</h2><h3 class='fridge-name'>" + FRIDGE_SPECS[q][0].replace(/^제품명: /, "") + "</h3><ul class='specs'>" + FRIDGE_SPECS[q].slice(1).map(function(s){ return "<li>" + s + "</li>"; }).join("") + "</ul><p style='color:#777;font-size:13px;'>출처: " + (FRIDGE_SOURCE[q] || "LG전자 공식 제품 페이지") + " (" + (FRIDGE_CHECKED[q] || "2026-11-02") + " 확인)</p>" + (noLgDetail ? "<p>LG전자 모델 상세 정보가 없습니다.</p>" : infoBtn) + "</div>";
   } else if(NO_LG_INFO.indexOf(q) !== -1){
     fridgeHtml = "<div class='card'><h2>검색한 냉장고: " + q + "</h2><p>이 모델의 기본정보는 아직 이 페이지에 등록되지 않았습니다.</p><p>LG전자 모델 상세 정보가 없습니다.</p></div>";
   } else {
