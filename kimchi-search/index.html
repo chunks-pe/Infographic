@@ -163,7 +163,9 @@ const NO_LG_INFO = ["K415SN13"];
 const NO_LG_DETAIL = ["K335SN15", "K336S11", "K335SA15", "K338NS15E", "K336SS13", "K338S11", "K337SN15E", "F847SN35", "K335SW13"];
 const ORIG_UPPER_119 = {"part": "AKC73209501", "name": "스탠드형 김치냉장고 김치통 (11.9L, 상칸)", "dims": "약 가로 374mm × 세로 257mm × 높이 182mm"};
 const ORIG_UPPER_117 = {"part": "AKC67523715", "name": "스탠드형 김치냉장고 김치통 (11.7L, 상칸)", "dims": "약 가로 374mm × 세로 257mm × 높이 182mm"};
-const MISSING_ORIGINALS = {"K335SN15": [ORIG_UPPER_119], "K335SA15": [ORIG_UPPER_119], "K335SW13": [ORIG_UPPER_119], "K336S11": [ORIG_UPPER_119], "K336SS13": [ORIG_UPPER_119], "K337SN15E": [ORIG_UPPER_119], "K338NS15E": [ORIG_UPPER_117], "K338S11": [ORIG_UPPER_117], "K333SS141": [ORIG_UPPER_117]};
+const ORIG_MID_113 = {"part": "AKC67523721", "name": "스탠드형 김치냉장고 김치통 (11.3L, 중칸)", "dims": "약 가로 250mm × 세로 305mm × 높이 205mm", "src": "일렉몰 적용 모델 기준"};
+const ORIG_LOW_171 = {"part": "AKC67523722", "name": "스탠드형 김치냉장고 김치통 (17.1L, 하칸)", "dims": "약 가로 300mm × 세로 256mm × 높이 309mm"};
+const MISSING_ORIGINALS = {"K335SN15": [ORIG_UPPER_119], "K335SA15": [ORIG_UPPER_119], "K335SW13": [ORIG_UPPER_119], "K336S11": [ORIG_UPPER_119], "K336SS13": [ORIG_UPPER_119], "K337SN15E": [ORIG_UPPER_119], "K338NS15E": [ORIG_UPPER_117], "K338S11": [ORIG_UPPER_117], "K333SS141": [ORIG_UPPER_117], "Z334GBB171": [ORIG_MID_113], "Z334GBB151": [ORIG_MID_113]};
 const FRIDGE_SPECS = {
   "K339SN15E": ["제품명: LG 디오스 김치톡톡", "전체 용량: 327L", "크기: 666 × 1,802 × 737mm", "타입: 스탠드형 · 상/중/하 3칸", "색상: 샤이니 사피아노", "에너지소비효율: 1등급", "기본 김치 용기: 총 10개(상칸 6 / 중칸 2 / 하칸 2)"],
   "Z386MEE221": ["제품명: LG 디오스 AI 오브제컬렉션 김치톡톡 Fit & Max", "전체 용량: 386L", "크기: 697 × 1,860 × 696mm (WxHxD)", "무게: 97kg", "타입: 스탠드형 · 3도어 · Fit & Max 설치", "색상: 오브제컬렉션 베이지 · 도어 메탈", "에너지소비효율: 1등급 · 월 소비전력 14.2kWh", "출시: 2026-04", "기본 김치통: 하칸 8.3L × 2개"],
@@ -231,11 +233,16 @@ function search(){
     }).join("");
   }
   let missingHtml = "";
-  const hasUpper = mergedContainers.some(function(h){ return h.name.indexOf("상칸") !== -1; });
-  if(!hasUpper && MISSING_ORIGINALS[q]){
-    missingHtml = "<p>아래는 검색 결과에 나오지 않은 칸의 원래 김치통입니다. LG 판매가 끝나 품절로 표시하고, 치수를 알려드립니다.</p>" + MISSING_ORIGINALS[q].map(function(m){
-      return "<div class='card container-card'><div class='container-img'></div><div class='container-info'><h2>" + m.name + "<span class='soldout'>품절</span></h2><p>부품번호: " + m.part + "</p><p>통 크기: " + m.dims + "</p><p>LG 판매가 끝난 제품입니다. 아래 치수 찾기에서 위 치수를 입력하면 맞는 김치통을 찾을 수 있습니다.</p><p style='color:#777;font-size:13px;'>출처: 제품설명서(매뉴얼)</p><p style='color:#777;font-size:13px;'>치수: 일렉몰 기준</p></div></div>";
-    }).join("");
+  if(MISSING_ORIGINALS[q]){
+    const shownMissing = MISSING_ORIGINALS[q].filter(function(m){
+      const comp = m.name.indexOf("상칸") !== -1 ? "상칸" : (m.name.indexOf("중칸") !== -1 ? "중칸" : "하칸");
+      return !mergedContainers.some(function(h){ return h.name.indexOf(comp) !== -1; });
+    });
+    if(shownMissing.length){
+      missingHtml = "<p>아래는 검색 결과에 나오지 않은 칸의 원래 김치통입니다. LG 판매가 끝나 품절로 표시하고, 치수를 알려드립니다.</p>" + shownMissing.map(function(m){
+        return "<div class='card container-card'><div class='container-img'></div><div class='container-info'><h2>" + m.name + "<span class='soldout'>품절</span></h2><p>부품번호: " + m.part + "</p><p>통 크기: " + m.dims + "</p><p>LG 판매가 끝난 제품입니다. 아래 치수 찾기에서 위 치수를 입력하면 맞는 김치통을 찾을 수 있습니다.</p><p style='color:#777;font-size:13px;'>출처: " + (m.src || "제품설명서(매뉴얼)") + "</p><p style='color:#777;font-size:13px;'>치수: 일렉몰 기준</p></div></div>";
+      }).join("");
+    }
   }
   const lgCardHtml = "<div class='card'><h2>" + q + "에 맞는 김치통, LG에서 바로 보기</h2><p>아래 버튼을 누르면 LG 공식 검색(“" + q + " 김치통”, 소모품 탭)이 새 창에서 열립니다. 김치통만 나오는지, 가격은 얼마인지, 구매는 LG 페이지에서 확인하세요.</p><p><a class='lg-link-btn' href='" + lgUrl + "' target='_blank' rel='noopener'>LG에서 바로 보기</a></p></div>";
   const noticeHtml = "<div class='note'><p>구매하기 전, LG 구매 페이지에서 ‘사용 가능한 모델’ 목록에 내 냉장고 모델이 있는지 꼭 확인하세요.</p></div>";
