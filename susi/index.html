@@ -30,6 +30,7 @@
       --wine: #9d2033;
       --exam: #7b4d16;
       --result: #1a7f37;
+      --csat: #2f9be8;
       --shadow: 0 8px 28px rgba(16,18,24,.07);
     }
     @media (prefers-color-scheme: dark) {
@@ -46,6 +47,7 @@
         --wine: #ff6f82;
         --exam: #d7a45c;
         --result: #4ac26b;
+        --csat: #6ec1f0;
         --shadow: 0 8px 28px rgba(0,0,0,.25);
       }
     }
@@ -65,6 +67,7 @@
     .dot.interview { background: var(--red); }
     .dot.exam { background: var(--exam); }
     .dot.result { background: var(--result); }
+    .dot.csat { background: var(--csat); }
     .timeline { position: relative; padding-left: 72px; }
     .timeline::before { content: ""; position: absolute; left: 27px; top: 15px; bottom: 18px; width: 3px; background: var(--line); border-radius: 3px; }
     .event { position: relative; padding: 0 0 34px; }
@@ -149,7 +152,7 @@
   <section class="top">
     <div class="inner">
       <h1>2027학년도 수시 입시 일정</h1>
-      <div class="legend" aria-label="일정 범례"><span><i class="dot first"></i>1차 발표</span><span><i class="dot interview"></i>면접</span><span><i class="dot result"></i>합격자 발표</span></div>
+      <div class="legend" aria-label="일정 범례"><span><i class="dot first"></i>1차 발표</span><span><i class="dot interview"></i>면접</span><span><i class="dot result"></i>합격자 발표</span><span><i class="dot csat"></i>수능 성적표 배부</span></div>
       <div id="timeline" class="timeline" aria-label="입시 일정 타임라인"></div>
 
       <section class="calendar-wrap" aria-labelledby="calendar-title">
@@ -197,7 +200,7 @@
         {date:'2026-11-26', label:'면접', type:'interview', time:'08:00', ids:['kaist']},
         {date:'2026-11-27', label:'면접', type:'interview', time:'', ids:['snu']},
         {date:'2026-12-09', label:'1차 발표', type:'first', time:'', ids:['gachon']},
-        {date:'2026-12-11', label:'수능 성적표 배부', type:'result', time:'', note:'재학생 학교 교부 · 졸업생 온라인 09:00부터', ids:[]},
+        {date:'2026-12-11', label:'수능 성적표 배부', type:'csat', time:'', note:'재학생 학교 교부 · 졸업생 온라인 09:00부터', ids:[]},
         {date:'2026-12-12', label:'1차 발표', type:'first', time:'', ids:['ajou']},
         {date:'2026-12-14', label:'면접', type:'interview', time:'', ids:['gachon','ajou']},
         {date:'2026-12-18', label:'합격자 발표', type:'result', time:'', note:'대학별 시간 상이', ids:[]}
@@ -208,7 +211,7 @@
       var currentMonth = now.getFullYear()===2026 && now.getMonth()>=9 && now.getMonth()<=11 ? now.getMonth() : 10;
       var selectedDate = todayIso;
       function schoolName(id) { var p=programs[id]; return p.school+(p.track?'('+p.track+')':''); }
-      function eventColor(type) { return type==='first'?'var(--orange)':type==='exam'?'var(--exam)':type==='result'?'var(--result)':'var(--red)'; }
+      function eventColor(type) { return type==='first'?'var(--orange)':type==='exam'?'var(--exam)':type==='result'?'var(--result)':type==='csat'?'var(--csat)':'var(--red)'; }
       function displayDate(iso) { var d=new Date(iso+'T12:00:00'); return (d.getMonth()+1)+'.'+d.getDate()+'('+weekdays[d.getDay()]+')'; }
       function scrollToCard(id) {
         var el=document.getElementById('card-'+id); if(!el) return;
